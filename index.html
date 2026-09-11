@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tikta Bodywash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF; --bg-2: #F6F6F4; --card: #FFFFFF; --card-2: #FAFAF9;
+    --border: #E7E7E4; --ink: #17171A; --ink-dim: #6B6B67;
+    --gold: #2F4A3C; --gold-deep: #1F332A; --green: #35533F; --terracotta: #7A3B2E;
+    --serif: 'Fraunces', serif; --sans: 'Inter', sans-serif; --mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.65; }
+  a { color: var(--gold-deep); }
+  sup a { text-decoration: none; font-weight: 700; }
+  h1, h2, h3, h4 { font-family: var(--serif); font-weight: 700; color: var(--ink); line-height: 1.2; }
+  .layout { display: flex; min-height: 100vh; }
+  nav.sidebar { width: 260px; flex-shrink: 0; background: var(--bg-2); border-right: 1px solid var(--border); padding: 30px 18px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  nav.sidebar .brand { font-family: var(--serif); font-size: 19px; color: var(--gold-deep); margin-bottom: 2px; }
+  nav.sidebar .brand-sub { font-size: 11px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 24px; }
+  nav.sidebar a.navlink { display: block; color: var(--ink); text-decoration: none; font-size: 13px; cursor: pointer; padding: 6px 0; border-bottom: 1px solid #ececea; opacity: .85; }
+  nav.sidebar a.navlink:hover { color: var(--gold-deep); opacity: 1; }
+  nav.sidebar a.navlink.active { color: var(--gold-deep); opacity: 1; font-weight: 600; border-bottom-color: var(--gold); }
+  nav.sidebar .nav-heading { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-dim); margin: 20px 0 6px; }
+  main { flex: 1; min-width: 0; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 56px 40px 100px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-deep); }
+  .doc-title { font-size: 40px; margin: 10px 0 4px; }
+  .doc-sub { color: var(--ink-dim); font-size: 15px; margin-bottom: 10px; }
+  .hero-row { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+  .hero-doodle { flex-shrink: 0; opacity: .85; }
+  .doodle { flex-shrink: 0; opacity: .8; margin-left: auto; }
+  section.section-block { margin-top: 62px; }
+  section.section-block h2 { font-size: 27px; margin: 6px 0 14px; }
+  section.section-block h3 { font-size: 17px; color: var(--gold-deep); margin: 26px 0 10px; }
+  .section-lede { color: var(--ink-dim); max-width: 78ch; margin-bottom: 16px; }
+  .concept-block { font-size: 16px; max-width: 82ch; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 30px 34px; }
+  .persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .persona-card { background: var(--card); border: 1px solid var(--border); border-top: 4px solid var(--pc); border-radius: 8px; padding: 20px 22px; }
+  .persona-name { font-family: var(--serif); font-size: 19px; color: var(--pc); margin-bottom: 8px; }
+  .persona-quote { font-family: var(--serif); font-style: italic; font-size: 15px; margin: 0 0 10px; }
+  .persona-profile { font-size: 13.5px; margin: 0 0 10px; }
+  .persona-jtbd { font-size: 12.8px; background: var(--card-2); padding: 8px 11px; border-radius: 4px; margin-bottom: 6px; }
+  .persona-market { font-size: 12.5px; color: var(--ink-dim); }
+  table.data-table, table.meta-table, table.ing-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.data-table { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  table.data-table th { text-align: left; font-family: var(--mono); font-size: 10px; text-transform: uppercase; color: var(--ink-dim); padding: 9px 12px; border-bottom: 1px solid var(--border); background: var(--card-2); }
+  table.data-table td { padding: 9px 12px; border-bottom: 1px solid #eeeeec; vertical-align: top; }
+  td.num { font-family: var(--mono); font-weight: 700; color: var(--terracotta); }
+  td.brand-name { font-weight: 600; }
+  td.dravya-cell { font-weight: 600; color: var(--terracotta); }
+  td.opp-cell { color: var(--gold-deep); font-style: italic; }
+  table.teardown-table td { font-size: 12.8px; }
+  .insight-list { padding-left: 20px; font-size: 14.5px; max-width: 80ch; }
+  .insight-list li { margin-bottom: 12px; }
+  table.meta-table { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-top: 10px; }
+  table.meta-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.meta-table td:first-child { width: 180px; font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; color: var(--gold-deep); }
+  table.meta-table ul { margin: 0; padding-left: 18px; }
+  .persona-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 16px; }
+  .persona-chip { font-family: var(--mono); font-size: 10px; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--pc); color: var(--pc); }
+  .chip-secondary { opacity: .55; border-style: dashed; }
+  section.variant { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 32px 36px; margin-top: 36px; }
+  .variant-head { display: flex; gap: 16px; align-items: baseline; margin-bottom: 4px; }
+  .priority-badge { font-family: var(--serif); font-size: 22px; color: var(--terracotta); }
+  .variant .eyebrow { color: var(--green); }
+  .variant h3 { font-size: 26px; margin: 2px 0 4px; }
+  .variant-position { font-size: 14px; font-style: italic; color: var(--gold-deep); margin: 0; }
+  .concept-flow { margin: 18px 0; }
+  .flow-row { display: grid; grid-template-columns: 160px 1fr; gap: 18px; padding: 14px 0; border-top: 1px solid var(--border); }
+  .flow-row p { font-size: 14.5px; margin: 0; }
+  .flow-tag { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .03em; font-weight: 700; }
+  .flow-tag.fails { color: var(--terracotta); }
+  .flow-tag.reframe { color: var(--gold-deep); }
+  .flow-tag.mechanism { color: var(--green); }
+  .bitter-truth { background: var(--card-2); border-left: 3px solid var(--gold); border-radius: 4px; padding: 14px 18px; font-size: 14.5px; margin: 16px 0; }
+  .note-block { background: var(--card-2); border-left: 3px solid var(--gold); border-radius: 4px; padding: 12px 16px; margin: 14px 0; }
+  .note-label { font-family: var(--serif); font-size: 14px; color: var(--gold-deep); margin-bottom: 4px; }
+  .note-block p { font-size: 13px; margin: 0; }
+  .rd-block { background: #F0F4F1; border: 1px solid var(--green); border-radius: 6px; padding: 18px 22px; margin: 18px 0; }
+  .rd-label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--green); margin-bottom: 8px; font-weight: 700; }
+  .rd-block p { font-size: 13.8px; margin: 0; line-height: 1.7; }
+  .variant-grid { display: grid; grid-template-columns: 1fr 220px; gap: 28px; margin-top: 18px; }
+  .col-main h4 { font-size: 13px; color: var(--terracotta); text-transform: uppercase; letter-spacing: .04em; margin: 18px 0 6px; }
+  .col-main h4:first-child { margin-top: 0; }
+  .core-sci { font-size: 13.5px; }
+  table.ing-table th { text-align: left; font-family: var(--mono); font-size: 10px; text-transform: uppercase; color: var(--ink-dim); padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  table.ing-table td { padding: 8px; border-bottom: 1px solid #eeeeec; }
+  td.ing-name { font-weight: 600; width: 30%; color: var(--gold-deep); }
+  .side-card { background: var(--card-2); border-radius: 6px; padding: 12px 14px; margin-bottom: 12px; border: 1px solid var(--border); }
+  .side-label { font-family: var(--mono); font-size: 10px; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 5px; }
+  .side-card p { font-size: 13px; margin: 0; }
+  .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .tech-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 22px; }
+  .tech-name { font-family: var(--serif); font-size: 16px; color: var(--terracotta); margin-bottom: 10px; }
+  .tech-card p { font-size: 13px; margin: 0 0 10px; }
+  .ext-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 16px; }
+  .ext-card h4 { font-size: 16px; margin: 0 0 8px; }
+  .ext-card p { font-size: 13.8px; margin: 0; }
+  .repo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .repo-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; }
+  .repo-brand { font-family: var(--serif); font-weight: 700; font-size: 14.5px; color: var(--terracotta); margin-bottom: 6px; }
+  .repo-card p { font-size: 12.8px; margin: 0; }
+  .src-row { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .src-n { font-family: var(--mono); color: var(--gold-deep); font-weight: 700; flex-shrink: 0; }
+  .gate-overlay { position: fixed; inset: 0; background: rgba(255,255,255,.97); z-index: 999; display: flex; align-items: center; justify-content: center; }
+  .gate-card { text-align: center; max-width: 360px; padding: 40px 36px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
+  .gate-doodle { display: flex; justify-content: center; margin-bottom: 12px; }
+  .gate-title { font-family: var(--serif); font-size: 24px; margin-bottom: 8px; }
+  .gate-sub { font-size: 13.5px; color: var(--ink-dim); margin-bottom: 20px; }
+  .gate-input { width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; font-family: var(--sans); margin-bottom: 12px; box-sizing: border-box; }
+  .gate-button { width: 100%; padding: 11px 14px; border: none; border-radius: 6px; background: var(--gold); color: #fff; font-family: var(--sans); font-size: 14px; font-weight: 600; cursor: pointer; }
+  .gate-button:hover { background: var(--gold-deep); }
+  .gate-error { display: none; color: var(--terracotta); font-size: 12.5px; margin-top: 12px; }
+
+  @media (max-width: 860px) {
+    .layout { flex-direction: column; }
+    nav.sidebar { width: 100%; height: auto; position: relative; }
+    .persona-grid, .variant-grid, .repo-grid, .tech-grid { grid-template-columns: 1fr; }
+    .flow-row { grid-template-columns: 1fr; }
+    .wrap { padding: 36px 18px 70px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="sidebar">
+    <div class="brand">Tikta Bodywash</div>
+    <div class="brand-sub">Concept &amp; strategy</div>
+    <a class="navlink" data-target="personas">01 &middot; Personas</a>
+    <a class="navlink" data-target="market">02 &middot; Market Nuances</a>
+    <a class="navlink" data-target="tikta">03 &middot; Main Concept</a>
+    <div class="nav-heading">04 &middot; The six variants</div>
+    <a class="navlink" data-target="masoor">1. Exfoliating &amp; Detan</a><a class="navlink" data-target="goat-milk">2. Nourishing</a><a class="navlink" data-target="bittermilk">3. Barrier Repair &amp; Sensitive Skin</a><a class="navlink" data-target="ubtan">4. Brightening &amp; Glow</a><a class="navlink" data-target="neem-berbamyrisin">5. Body Acne &amp; KP</a><a class="navlink" data-target="vetiver-chamomile">6. Hydrating &amp; Recovery</a>
+    <a class="navlink" data-target="texture">05 &middot; Texture</a>
+    <a class="navlink" data-target="extensions">06 &middot; Extensions</a>
+    <a class="navlink" data-target="repository">07 &middot; Comms Repository</a>
+    <a class="navlink" data-target="sources">08 &middot; Sources</a>
+  </nav>
+  <main>
+    <div class="wrap" id="top">
+      <div class="hero-row">
+        <div>
+          <div class="eyebrow">Founder Pitch</div>
+          <h1 class="doc-title">Tikta Bodywash</h1>
+          <p class="doc-sub">Bitter is better. We're proving it on the body next.</p>
+        </div>
+        <div class="hero-doodle"><svg width="120" height="120" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40 90c0 20 16 32 30 32s30-12 30-32" stroke="var(--ink)" stroke-width="1.6"/>
+            <ellipse cx="70" cy="90" rx="34" ry="9" stroke="var(--ink)" stroke-width="1.6"/>
+            <path d="M55 82c-6-14-2-28 8-36M85 82c6-14 2-28-8-36" stroke="var(--ink)" stroke-width="1.3"/>
+            <path d="M63 46c-8-2-13-9-11-16 7 0 13 6 11 16zM77 46c8-2 13-9 11-16-7 0-13 6-11 16z" stroke="var(--ink)" stroke-width="1.2"/>
+            <circle cx="70" cy="30" r="4" stroke="var(--ink)" stroke-width="1.2"/>
+            <path d="M30 110c26 8 54 8 80 0" stroke="var(--ink)" stroke-width="1.1" stroke-dasharray="1 5"/>
+        </svg></div>
+      </div>
+      
+    <section class="section-block" id="personas">
+      <div class="eyebrow">01 &mdash; Who This Is For</div>
+      <h2>Five Consumer Personas in Bodywash</h2>
+      <p class="section-lede">Built from review-mined data across 13 real Amazon bodywash brands <sup><a href="#src-15">[15]</a></sup> and the category's own claims and ingredient segmentation <sup><a href="#src-14">[14]</a></sup>.</p>
+      <div class="persona-grid">
+        <div class="persona-card" style="--pc:#4B5D45">
+          <div class="persona-name">The True Naturalist</div>
+          <p class="persona-quote">&ldquo;“I read labels. If I can't picture the ingredient, I don't buy it.”&rdquo;</p>
+          <p class="persona-profile">She is why this range exists. Real dals, real decoctions, nothing she can't picture.</p>
+          <div class="persona-jtbd"><b>Job to be done:</b> Proof that natural isn't a marketing word.</div>
+          <div class="persona-market">SKUs branded specifically as ‘Natural’ are only 9 of 99 in the category, 7.4% of revenue, and no brand holds more than 3% share. Nobody owns this yet.</div>
+        </div>
+        <div class="persona-card" style="--pc:#A6512F">
+          <div class="persona-name">The Concern-Solver</div>
+          <p class="persona-quote">&ldquo;“I've tried three body washes for this. None of them actually worked.”&rdquo;</p>
+          <p class="persona-profile">Patient with an honest timeline. Done with brands that promise overnight.</p>
+          <div class="persona-jtbd"><b>Job to be done:</b> A wash that treats her actual concern and tells her the truth about how long it takes.</div>
+          <div class="persona-market">Exfoliation and Glow/Brightening are the two largest revenue behaviours in the category, at 40.7% and 39.8%.</div>
+        </div>
+        <div class="persona-card" style="--pc:#8F6720">
+          <div class="persona-name">The Modern Efficacy Seeker</div>
+          <p class="persona-quote">&ldquo;“Show me the number. Then I'll believe you.”&rdquo;</p>
+          <p class="persona-profile">Wants a named mechanism, not an adjective.</p>
+          <div class="persona-jtbd"><b>Job to be done:</b> A real, checkable claim.</div>
+          <div class="persona-market">37 of 99 SKUs carry a named active ingredient — and they take 57.9% of category revenue.</div>
+        </div>
+        <div class="persona-card" style="--pc:#2F6B6B">
+          <div class="persona-name">The Active Body</div>
+          <p class="persona-quote">&ldquo;“I shower because I trained, not because it's morning.”&rdquo;</p>
+          <p class="persona-profile">Wants recovery, not just refreshment.</p>
+          <div class="persona-jtbd"><b>Job to be done:</b> A wash built for a physically demanding day.</div>
+          <div class="persona-market">‘Muscle Relaxation’ sits in the category's own tracked positioning matrix with zero brands claiming it.</div>
+        </div>
+        <div class="persona-card" style="--pc:#6b3247">
+          <div class="persona-name">The Sensorial Indulger</div>
+          <p class="persona-quote">&ldquo;“It doesn't need to fix anything. It needs to feel like something.”&rdquo;</p>
+          <p class="persona-profile">Buys the experience, not the claim.</p>
+          <div class="persona-jtbd"><b>Job to be done:</b> Richness, without a corrective claim attached.</div>
+          <div class="persona-market">Indulgence positioning still drives 4–7.5% of category revenue on its own.</div>
+        </div></div>
+    </section>
+      
+    <section class="section-block" id="market">
+      <div class="eyebrow">02 &mdash; The Category</div>
+      <h2>Market Nuances &amp; Brand-Wise Sentiment</h2>
+      <p class="section-lede">Amazon.in Helium 10 X-Ray pull, 22 Jul 2026 <sup><a href="#src-14">[14]</a></sup> &mdash; 99 SKUs, cross-referenced against 13-brand review analysis <sup><a href="#src-15">[15]</a></sup>.</p>
+      <h3>Who owns which concern</h3>
+      <table class="data-table">
+        <thead><tr><th>Brand</th><th>Category Revenue Share</th><th>Lead Positioning</th></tr></thead>
+        <tbody><tr><td>Dove</td><td class="num">19.1%</td><td>Nourishing / Hydrating</td></tr><tr><td>Be Bodywise</td><td class="num">15.6%</td><td>Exfoliating / Pigmentation-Detan</td></tr><tr><td>Chemist at Play</td><td class="num">10.6%</td><td>Exfoliating / Body Acne</td></tr><tr><td>mCaffeine</td><td class="num">7.3%</td><td>Glow & Brightening / Pigmentation-Detan</td></tr><tr><td>Pears</td><td class="num">6.7%</td><td>Generic / Nourishing</td></tr><tr><td>NIVEA</td><td class="num">4.2%</td><td>Refreshing / Indulgence</td></tr><tr><td>GHAR SOAPS</td><td class="num">2.6%</td><td>Pigmentation-Detan / Nourishing (highest P/Q in the category, ₹2.90/ml)</td></tr></tbody>
+      </table>
+      <h3>What the numbers actually say</h3>
+      <ul class="insight-list"><li>14 of 99 SKUs drive 51.6% of category revenue.</li><li>Dermat Led is 1.7x more revenue-efficient per SKU than Mass/Commercial.</li><li>Salicylic Acid alone is 31.3% of category revenue. Named actives overall take 57.9% of revenue on under 40% of SKUs.</li><li>40.1% of category revenue mentions a natural ingredient, but 35 of 51 such SKUs belong to Dove, Palmolive, Cinthol, Dettol, LUX and Fiama — mass brands using it as a footnote. Only 9 SKUs are actually branded natural, none holds 3% share.</li><li>Goat Milk pulls nearly 6,400 combined monthly searches on Amazon and Google. It's not in the category's top 15 actual ingredients.</li><li>Muscle Relaxation is a tracked positioning column with zero brands claiming it.</li><li>Packaging failure is the single most common complaint across all 13 brands studied, at every price tier.</li></ul>
+      <h3>Competitive teardown &mdash; where each one is actually weak</h3>
+      <table class="data-table teardown-table">
+        <thead><tr><th>Brand</th><th>Key Claim</th><th>Actives</th><th>Functional Focus</th><th>Opportunity</th></tr></thead>
+        <tbody><tr><td class="brand-name">Dove Nourishing Body Wash</td><td>“For soft and smooth skin”</td><td>Glycerine, moisturising cream</td><td>Sensorial softness, mass trust</td><td class="opp-cell">No concern-resolution evidence in real reviews — wins on feel, not function. Opening for a brand that can prove an outcome, not just claim a feeling.</td></tr><tr><td class="brand-name">Chemist at Play Exfoliating Body Wash</td><td>“Reduces bumps/strawberry skin, tan reduction”</td><td>Salicylic Acid, Lactic Acid, Murmuru Butter</td><td>Concern-led, dermat-inspired</td><td class="opp-cell">Real reviewers confirm it works — but flag ‘not instant’ and ‘too diluted, finishes fast’ as live complaints. Opening: same real function, honestly paced, with disclosed content.</td></tr><tr><td class="brand-name">Be Bodywise 5% AHA BHA Body Wash</td><td>“Helps with body/back acne”</td><td>AHA, BHA, Lactic Acid, Salicylic Acid</td><td>Format innovation (mousse) plus real actives</td><td class="opp-cell">Reviewers confirm it ‘does not work on old tan’ and flag ‘expectation mismatch from strong claims.’ Opening: a formula that doesn't overpromise what one mechanism can't do alone.</td></tr><tr><td class="brand-name">mCaffeine Glow & Brightening</td><td>“Removes tan, mild”</td><td>Niacinamide, Kojic Acid, Glutathione, Vitamin C</td><td>Sensory novelty, ingredient trend-hopping</td><td class="opp-cell">Wins on fragrance and format, not skin outcomes — reviewers call results ‘slow or mild.’ Opening: a brightening mechanism with a second, independent pathway, not just a bigger percentage.</td></tr><tr><td class="brand-name">Arata Bacne & Exfoliation</td><td>“Reduces bacne, gentle exfoliation”</td><td>Natural actives, dermatology-inspired</td><td>Results-driven natural positioning</td><td class="opp-cell">Real reviewers flag ‘contains SLS/ingredient concern’ despite good functional results, and cite low marketplace visibility. Opening: the same natural credibility, without the ingredient-transparency liability.</td></tr></tbody>
+      </table>
+    </section>
+      
+    <section class="section-block" id="tikta">
+      <div class="eyebrow">03 &mdash; Main Concept</div>
+      <h2>Tikta Body Wash</h2>
+      <div class="concept-block">Body Tikta is built on the same Ayurvedic role of Tikta (bitter) as a systemic purifier and regulator that already anchors Fresh Tikta on the face — but the toxin load the body carries every day is different, and larger. Every bath in urban India means full-body contact with hard water, whose dissolved calcium and magnesium react with ordinary surfactants to form an insoluble scale that redeposits across the entire skin surface, and with airborne pollution, which settles on the body all day, not just the face. This is the real, continuous biological pathway Body Tikta is built to interrupt.<br><br>Bitter phytoconstituents initiate detox clearance by stimulating microcirculation and lymphatic movement across the body's much larger skin surface, enabling removal of hard-water mineral residue, oxidised sebum, and pollutant particulates trapped under clothing and across skin folds through a full working day. This directly reduces the triggers of body acne, keratosis pilaris and dullness that a face-only routine was never built to touch.<br><br>As this load reduces, oxidative stress drops with it. Bitter antioxidants neutralise the free radicals generated by both UV exposure and hard-water mineral contact, stabilise melanocyte activity across the larger surface area most prone to tanning, and protect collagen and elastin — preventing pigmentation and premature skin ageing at the source, body-wide, not just facially.<br><br>With a cleaner, lower-stress environment, skin cells across the body function optimally. Improved oxygen and nutrient availability support keratinocyte turnover and fibroblast activity, accelerating regeneration of smoother, more even skin — including on the high-friction, high-exposure zones a face routine never has to account for: back, shoulders, limbs.<br><br>This entire pathway is preserved through the same non-stripping, barrier-compatible base already proven on the face, scaled to what a body wash actually needs: naturally derived surfactants remove hard-water residue and pollutant buildup without lipid loss, while milk and plant bio-polymers maintain hydration and reinforce the barrier at full-body dose, not a facial one, diluted down.<br><br><b>The bitter truth is:</b> your body sees more hard water and more pollution than your face ever does, and nothing in this category has been built with that arithmetic in mind. This range is.</div>
+      <h3>Bitter, mapped from face to body</h3>
+      <table class="data-table dravya-table">
+        <thead><tr><th>Variant</th><th>Bitter (Tikta) Active</th><th>Source</th><th>Support</th></tr></thead>
+        <tbody><tr><td>Masoor Tikta — Exfoliating & Detan</td><td class="dravya-cell">Catechin & rutin</td><td>Moong & moth dal</td><td>Masoor dal</td></tr><tr><td>Goat Milk Tikta — Nourishing</td><td class="dravya-cell">Momordicine</td><td>Karela</td><td>Goat milk</td></tr><tr><td>Bittermilk Tikta — Barrier & Sensitive Skin</td><td class="dravya-cell">Momordicine</td><td>Karela</td><td>Raw milk, almond, charoli</td></tr><tr><td>Ubtan Tikta — Brightening & Glow</td><td class="dravya-cell">Curcumin</td><td>Wild turmeric</td><td>Besan, red sandalwood</td></tr><tr><td>Neem Berbamyrisin Tikta — Body Acne & KP</td><td class="dravya-cell">Nimbin & tinosporin</td><td>Neem, giduchi</td><td>5% Berbamyrisin™</td></tr><tr><td>Vetiver-Chamomile Tikta — Hydrating & Recovery</td><td class="dravya-cell">Bitter-earthy root note</td><td>Vetiver</td><td>Chamomile, coconut</td></tr></tbody>
+      </table>
+      <h3>Category metadata</h3>
+      <table class="meta-table">
+        <tr><td>Ayurvedic Score</td><td>7. Real enough to earn trust, modern enough to earn a first purchase.</td></tr>
+        <tr><td>EM / R / I</td><td>Enhance-Maintain — an everyday wash, not an occasional treatment.</td></tr>
+        <tr><td>Concern &mdash; Primary</td><td>Exfoliation & Tan (40.7% of category revenue) · Glow & Brightening (39.8%) · Body Acne (31.2%)</td></tr>
+        <tr><td>Concern &mdash; Secondary</td><td>Nourishing & Barrier Repair · Hydrating & Recovery, a confirmed, unclaimed position</td></tr>
+        <tr><td>Discriminator</td><td><ul><li>Fresh-made with real masoor, moong and moth dal</li><li>The same patented technology already proven on the face: LentiClear, 6D ClariAcne, Berbamyrisin™</li><li>A natural-ingredient story owned by a brand actually built as a natural brand, in a category where 91% of ‘natural’-tagged SKUs belong to mass brands using it as a footnote</li><li>Hard-water and pollution defence built into the mechanism of every variant, not claimed as a bolt-on</li></ul></td></tr>
+        <tr><td>Must Meet</td><td>Dermatologically tested &middot; Zero harmful chemicals &middot; Non-drying &middot; Paraben & sulfate free &middot; Leak-tested packaging</td></tr>
+      </table>
+    </section>
+      <section class="section-block" id="variants-intro">
+        <div class="eyebrow">04 &mdash; The Range</div>
+        <h2>Six Variants</h2>
+      </section>
+      
+  <section class="variant" id="masoor">
+    <div class="variant-head">
+      <div class="priority-badge">01</div>
+      <div>
+        <div class="eyebrow">Exfoliating &amp; Detan</div>
+        <h3>Masoor Tikta</h3>
+        <p class="variant-position">Clears the Tan-Bearing Layer, Not Just the Dead Cells On Top of It</p>
+      </div>
+      <div class="doodle"><svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="50" cy="50" rx="30" ry="22" stroke="var(--ink)" stroke-width="1.6" transform="rotate(-12 50 50)"/>
+            <path d="M25 46c8-4 16-2 25 1s17 6 24-1" stroke="var(--ink)" stroke-width="1.3"/>
+            <ellipse cx="72" cy="30" rx="9" ry="7" stroke="var(--ink)" stroke-width="1.3" transform="rotate(20 72 30)"/>
+            <ellipse cx="24" cy="70" rx="7" ry="5.5" stroke="var(--ink)" stroke-width="1.3" transform="rotate(-15 24 70)"/>
+        </svg></div>
+    </div>
+    <div class="persona-chips"><span class="persona-chip " style="--pc:#4B5D45">The True Naturalist</span><span class="persona-chip " style="--pc:#A6512F">The Concern-Solver</span></div>
+    <div class="concept-flow">
+      <div class="flow-row"><span class="flow-tag fails">Conventional Fails Because</span><p>Most detan and exfoliating body washes rely on one mechanism — an acid that dissolves surface cells, or a scrub that abrades them. Neither was built to solve the actual problem on Indian skin: a tan that isn't just pigment, it's an oxidised surface layer bonded to a hard-water mineral film. Treat the dead cells and the mineral scale stays. Scrub the surface and the tan underneath is untouched.</p></div>
+      <div class="flow-row"><span class="flow-tag reframe">Our Reframe</span><p>Masoor Tikta doesn't pick one job. Real masoor, moong and moth dal act as bio-active renewal substrates — not a scrub, not an acid, a saponin-and-protein-driven cleansing action that does both jobs in the same wash.</p></div>
+      <div class="flow-row"><span class="flow-tag mechanism">The Mechanism</span><p>Besan and dal proteins physically bind and lift the oxidised, tan-bearing surface layer hard water helps create — the same saponin action already proven on Masoor Tikta face wash, at body scale. Masoor's antioxidant-rich polyphenols brighten tone as that layer clears. Moong and moth dal's bitter catechin and rutin actives defend against the ongoing oxidative stress that UV and hard-water mineral contact both generate — which is what keeps a tan coming back even after a scrub.</p></div>
+    </div>
+    <div class="bitter-truth"><b>The bitter truth:</b> Detan isn't a dead-skin problem alone. It's a mineral problem hard water creates and doesn't let go of — and no amount of scrubbing fixes what's chemically bonded to your skin.</div>
+    
+    
+    <div class="variant-grid">
+      <div class="col-main">
+        <h4>Key ingredients</h4>
+        <table class="ing-table"><thead><tr><th>Ingredient</th><th>Why it earns its place here</th></tr></thead><tbody><tr><td class="ing-name">Masoor Dal</td><td>Real antioxidant and polyphenol content that brightens tone as the oxidised surface layer clears.</td></tr><tr><td class="ing-name">Moong &amp; Moth Dal</td><td>Bitter catechin and rutin actives that defend against the ongoing oxidative stress driving tan to return.</td></tr><tr><td class="ing-name">Besan</td><td>Protein and saponin fractions that physically bind and lift oil, tan and hard-water mineral film together.</td></tr></tbody></table>
+        <h4>Core science</h4>
+        <p class="core-sci">Besan and dal proteins physically adsorb the oxidised, mineral-bound surface layer responsible for persistent tan; masoor's polyphenols brighten tone as it clears; moong and moth dal's bitter actives defend against ongoing oxidative stress.</p>
+        <h4>Must meet</h4>
+        <p class="core-sci">Dermatologically tested · 100% natural · non-drying · leak-tested packaging · real, disclosed grain content</p>
+      </div>
+      <div class="col-side">
+        <div class="side-card"><div class="side-label">Colour</div><p>Warm golden-red, the real colour of masoor dal</p></div>
+        <div class="side-card"><div class="side-label">Smell</div><p>Fresh turmeric root, roasted masoor and moong, soft sandalwood</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="variant" id="goat-milk">
+    <div class="variant-head">
+      <div class="priority-badge">02</div>
+      <div>
+        <div class="eyebrow">Nourishing</div>
+        <h3>Goat Milk Tikta</h3>
+        <p class="variant-position">Fat Structured Like Skin's Own Barrier, Not Fat Sitting on Top of It</p>
+      </div>
+      <div class="doodle"><svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 40c-4-10 4-18 12-14 3-8 14-9 17-1 9-2 16 6 12 14 6 4 4 15-4 16-2 8-14 10-19 3-8 5-18-1-17-9-8-1-9-13 -1-9z" stroke="var(--ink)" stroke-width="1.4"/>
+            <path d="M42 55c2 6 2 12 0 18M58 55c-2 6-2 12 0 18" stroke="var(--ink)" stroke-width="1.2"/>
+            <circle cx="50" cy="52" r="2" stroke="var(--ink)" stroke-width="1.1"/>
+        </svg></div>
+    </div>
+    <div class="persona-chips"><span class="persona-chip " style="--pc:#4B5D45">The True Naturalist</span><span class="persona-chip chip-secondary" style="--pc:#6b3247">The Sensorial Indulger</span></div>
+    <div class="concept-flow">
+      <div class="flow-row"><span class="flow-tag fails">Conventional Fails Because</span><p>Most ‘nourishing’ body washes add a rich-sounding butter — shea, cocoa — to a standard surfactant base and call it hydrating. But an unstructured plant fat sitting on skin for the length of a rinse-off wash barely gets absorbed before it's gone, and it does nothing for the barrier disruption hard water's mineral film is already causing underneath it.</p></div>
+      <div class="flow-row"><span class="flow-tag reframe">Our Reframe</span><p>Goat Milk Tikta works differently because goat milk fat isn't unstructured. It's naturally held inside a membrane built from phospholipids and proteins — architecturally closer to skin's own layered lipid barrier than a plant butter ever is.</p></div>
+      <div class="flow-row"><span class="flow-tag mechanism">The Mechanism</span><p>Goat milk's finer fat structure supports real barrier repair and measurably reduces transepidermal water loss, replacing what hard water strips, not just coating over it. Its natural sugars function as a genuine feeding substrate for skin's own beneficial bacteria, working with the skin instead of just sitting on it. Karela's bitter momordicine actives, with documented anti-inflammatory activity, support the same regenerative-cleansing base already proven on the face.</p></div>
+    </div>
+    <div class="bitter-truth"><b>The bitter truth:</b> Most ‘nourishing’ washes nourish the rinse water. This one is structured to actually stay.</div>
+    
+    
+    <div class="variant-grid">
+      <div class="col-main">
+        <h4>Key ingredients</h4>
+        <table class="ing-table"><thead><tr><th>Ingredient</th><th>Why it earns its place here</th></tr></thead><tbody><tr><td class="ing-name">Goat Milk</td><td>A naturally finer fat structure than cow milk, forming a real barrier that reduces water loss instead of coating over the problem.</td></tr><tr><td class="ing-name">Karela</td><td>Bitter momordicine actives with documented anti-inflammatory activity.</td></tr><tr><td class="ing-name">Goat Milk Sugars</td><td>A genuine feeding substrate for skin's own bacteria, stable for the shelf life this product actually needs.</td></tr></tbody></table>
+        <h4>Core science</h4>
+        <p class="core-sci">Goat milk's finer fat structure supports barrier repair and reduces transepidermal water loss; its natural sugars function as a prebiotic substrate; karela's momordicine actives support the regenerative-cleansing mechanism proven on the face.</p>
+        <h4>Must meet</h4>
+        <p class="core-sci">Dermatologically tested · 100% natural · non-drying · leak-tested packaging</p>
+      </div>
+      <div class="col-side">
+        <div class="side-card"><div class="side-label">Colour</div><p>Warm ivory-cream</p></div>
+        <div class="side-card"><div class="side-label">Smell</div><p>Fresh milk sweetness, a faint green karela note, soft sandalwood</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="variant" id="bittermilk">
+    <div class="variant-head">
+      <div class="priority-badge">03</div>
+      <div>
+        <div class="eyebrow">Barrier Repair &amp; Sensitive Skin</div>
+        <h3>Bittermilk Tikta</h3>
+        <p class="variant-position">Barrier-Regenerative, Not Barrier-Avoidant</p>
+      </div>
+      <div class="doodle"><svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M35 30c-6 6-10 16-6 26 3 7 10 12 21 12s18-5 21-12c4-10 0-20-6-26" stroke="var(--ink)" stroke-width="1.5"/>
+            <path d="M40 34c-3 8-1 6 2 14M50 30c-2 10 0 8 3 18M60 34c-3 8-1 6 2 14" stroke="var(--ink)" stroke-width="1.1"/>
+            <path d="M42 68c3 3 13 3 16 0" stroke="var(--ink)" stroke-width="1.2"/>
+        </svg></div>
+    </div>
+    <div class="persona-chips"><span class="persona-chip " style="--pc:#4B5D45">The True Naturalist</span><span class="persona-chip chip-secondary" style="--pc:#A6512F">The Concern-Solver</span></div>
+    <div class="concept-flow">
+      <div class="flow-row"><span class="flow-tag fails">Conventional Fails Because</span><p>Sensitive-skin washes usually solve irritation by being too mild to actually clean — diluting everything down until the formula is safe but ineffective. That leaves hard-water mineral buildup and pollutant residue sitting on skin that's already compromised, because the wash was too scared to touch it.</p></div>
+      <div class="flow-row"><span class="flow-tag reframe">Our Reframe</span><p>Bittermilk Tikta is a barrier-regenerative cleansing system, not a barrier-avoidant one. It restores what cleansing typically removes, instead of removing less.</p></div>
+      <div class="flow-row"><span class="flow-tag mechanism">The Mechanism</span><p>Raw milk's lactic acid gently supports cell turnover while its lipids and proteins replenish surface fat during the wash itself — the exact claim already proven, at scale, on Fresh Baby Daily Ubtan. Karela's bitter momordicine actives purify without triggering inflammation. Almond and charoli's polyphenols hold documented antimicrobial activity, carried forward from the one formula already proven safe on the most barrier-vulnerable skin the brand formulates for.</p></div>
+    </div>
+    <div class="bitter-truth"><b>The bitter truth:</b> Gentle and effective were never supposed to be opposites.</div>
+    
+    
+    <div class="variant-grid">
+      <div class="col-main">
+        <h4>Key ingredients</h4>
+        <table class="ing-table"><thead><tr><th>Ingredient</th><th>Why it earns its place here</th></tr></thead><tbody><tr><td class="ing-name">Raw Milk</td><td>Real lactic acid that gently supports cell turnover while replenishing lost surface lipids during cleansing.</td></tr><tr><td class="ing-name">Karela</td><td>Bitter momordicine actives that purify without triggering inflammation.</td></tr><tr><td class="ing-name">Almond &amp; Charoli</td><td>Vitamin E and documented antimicrobial polyphenols, carried forward from a formula already proven on the most sensitive skin the brand formulates for.</td></tr></tbody></table>
+        <h4>Core science</h4>
+        <p class="core-sci">Lactic acid from raw milk gently supports cell turnover while its lipids replenish surface fat during cleansing, shifting the wash from barrier-damaging to barrier-building; karela's momordicine actives support regenerative cleansing without inflammation; almond and charoli contribute Vitamin E and documented antimicrobial polyphenols.</p>
+        <h4>Must meet</h4>
+        <p class="core-sci">Dermatologically tested · 100% natural · non-drying · leak-tested packaging · patch-tested formulation</p>
+      </div>
+      <div class="col-side">
+        <div class="side-card"><div class="side-label">Colour</div><p>Pale ivory with a faint green tint</p></div>
+        <div class="side-card"><div class="side-label">Smell</div><p>Warm raw milk, gentle karela leaf, a whisper of almond</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="variant" id="ubtan">
+    <div class="variant-head">
+      <div class="priority-badge">04</div>
+      <div>
+        <div class="eyebrow">Brightening &amp; Glow</div>
+        <h3>Ubtan Tikta</h3>
+        <p class="variant-position">Clears the Buildup Instead of Racing a Percentage</p>
+      </div>
+      <div class="doodle"><svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 20c-14 10-20 26-14 40 4 9 24 9 28 0 6-14 0-30-14-40z" stroke="var(--ink)" stroke-width="1.5"/>
+            <path d="M50 30v34M42 45c4-3 12-3 16 0" stroke="var(--ink)" stroke-width="1.1"/>
+            <path d="M28 75c8-4 36-4 44 0" stroke="var(--ink)" stroke-width="1.3"/>
+        </svg></div>
+    </div>
+    <div class="persona-chips"><span class="persona-chip " style="--pc:#A6512F">The Concern-Solver</span><span class="persona-chip chip-secondary" style="--pc:#8F6720">The Modern Efficacy Seeker</span></div>
+    <div class="concept-flow">
+      <div class="flow-row"><span class="flow-tag fails">Conventional Fails Because</span><p>Brightening body washes have become a percentage race — a bigger Vitamin C number printed on the bottle each season — while the actual problem goes untreated: a body's tan is an oxidised surface-protein layer building up faster than a face's, because it gets more sun and more hard water with less protection.</p></div>
+      <div class="flow-row"><span class="flow-tag reframe">Our Reframe</span><p>Ubtan Tikta solves this the way ubtan always has — by clearing the adherent buildup itself, not chasing the pigment underneath it with a bigger number.</p></div>
+      <div class="flow-row"><span class="flow-tag mechanism">The Mechanism</span><p>Besan and dal saponins bind oil, oxidised sebum and hard-water-bound particulate residue, the same real LentiClear mechanism already proven on the face. Wild turmeric's curcumin and red sandalwood regulate melanocyte activity as that surface layer clears — two independent, named brightening pathways working at once, neither of them a Vitamin-C percentage that degrades from the day it's bottled.</p></div>
+    </div>
+    <div class="bitter-truth"><b>The bitter truth:</b> You can't out-percentage a tan that hard water helped create. You have to clear it.</div>
+    
+    
+    <div class="variant-grid">
+      <div class="col-main">
+        <h4>Key ingredients</h4>
+        <table class="ing-table"><thead><tr><th>Ingredient</th><th>Why it earns its place here</th></tr></thead><tbody><tr><td class="ing-name">Wild Turmeric</td><td>Curcumin with real, modern dermatological documentation for brightening and inflammation control.</td></tr><tr><td class="ing-name">Red Sandalwood</td><td>A classical Ayurvedic complexion-brightening ingredient, working through its own mechanism, not a Vitamin-C substitute.</td></tr><tr><td class="ing-name">Besan</td><td>Saponins and protein fractions that bind and lift oil, tan and hard-water residue.</td></tr></tbody></table>
+        <h4>Core science</h4>
+        <p class="core-sci">Besan and dal saponins bind oil, oxidised sebum and hard-water-bound residue; wild turmeric's curcumin and red sandalwood regulate melanocyte activity through two independent, named pathways, neither dependent on Vitamin C's degradation-prone chemistry.</p>
+        <h4>Must meet</h4>
+        <p class="core-sci">Dermatologically tested · 100% natural · non-drying · leak-tested packaging</p>
+      </div>
+      <div class="col-side">
+        <div class="side-card"><div class="side-label">Colour</div><p>Golden turmeric-yellow with a warm sandalwood undertone</p></div>
+        <div class="side-card"><div class="side-label">Smell</div><p>Warm turmeric spice, soft sandalwood, a light besan warmth</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="variant" id="neem-berbamyrisin">
+    <div class="variant-head">
+      <div class="priority-badge">05</div>
+      <div>
+        <div class="eyebrow">Body Acne &amp; KP</div>
+        <h3>Neem Berbamyrisin Tikta</h3>
+        <p class="variant-position">6D ClariAcne™ Technology, Proven on the Face, Now at Body Strength</p>
+      </div>
+      <div class="doodle"><svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 18v64" stroke="var(--ink)" stroke-width="1.4"/>
+            <path d="M50 28c-10-4-18 0-20 8 8 4 16 2 20-8zM50 28c10-4 18 0 20 8-8 4-16 2-20-8zM50 42c-11-3-19 2-20 10 9 3 17 0 20-10zM50 42c11-3 19 2 20 10-9 3-17 0-20-10zM50 56c-10-2-17 4-17 11 8 2 15-2 17-11zM50 56c10-2 17 4 17 11-8 2-15-2-17-11z" stroke="var(--ink)" stroke-width="1.1"/>
+        </svg></div>
+    </div>
+    <div class="persona-chips"><span class="persona-chip " style="--pc:#A6512F">The Concern-Solver</span><span class="persona-chip " style="--pc:#8F6720">The Modern Efficacy Seeker</span><span class="persona-chip chip-secondary" style="--pc:#2F6B6B">The Active Body</span></div>
+    <div class="concept-flow">
+      <div class="flow-row"><span class="flow-tag fails">Conventional Fails Because</span><p>Body acne and bumpy, keratosis-pilaris-style texture persist because most treatments act on one pathway at a time — antibacterial, or keratin-clearing, or anti-inflammatory — while sweat, hard water and fabric friction keep re-triggering whichever pathway was left untreated. Clothing traps what a face never has to deal with, which is exactly why a body wash copied down from a face-wash formula keeps underperforming.</p></div>
+      <div class="flow-row"><span class="flow-tag reframe">Our Reframe</span><p>Neem Berbamyrisin Tikta carries the same 6D ClariAcne™ system already proven on the face, at body strength — a system built from the start to work six pathways at once, not one.</p></div>
+      <div class="flow-row"><span class="flow-tag mechanism">The Mechanism</span><p>5% Berbamyrisin™, developed from Daruharidra, Guduchi, Palm, Coconut and Nutmeg, acts on the C. acnes bacteria responsible for breakouts through a multi-pronged mechanism that doesn't carry antibiotic resistance risk. Neem's nimbidin and azadirachtin independently regulate sebum via 5-α-reductase inhibition while calming the inflammation that makes breakouts worse. Tea tree's terpinen-4-ol reinforces antibacterial action. Guduchi calms inflammatory signalling and supports barrier recovery. A lactose-derived AHA clears the keratin plug behind bumpy texture that isn't infected — the same follicle-blockage root cause acne shares, addressed in the same wash because it's the same bottleneck, not because it's convenient to bundle.</p></div>
+    </div>
+    <div class="bitter-truth"><b>The bitter truth:</b> Clothing traps what your face never has to deal with. That's why a body acne wash copied from a face wash was always going to fall short.</div>
+    
+    
+    <div class="variant-grid">
+      <div class="col-main">
+        <h4>Key ingredients</h4>
+        <table class="ing-table"><thead><tr><th>Ingredient</th><th>Why it earns its place here</th></tr></thead><tbody><tr><td class="ing-name">Neem</td><td>Nimbidin and azadirachtin regulate sebum via 5-α-reductase inhibition and calm inflammation.</td></tr><tr><td class="ing-name">5% Berbamyrisin™ Complex</td><td>The same patented, multi-pathway complex proven on the face, at body-appropriate strength.</td></tr><tr><td class="ing-name">Tea Tree</td><td>Terpinen-4-ol reinforces antibacterial action through a distinct, documented mechanism.</td></tr></tbody></table>
+        <h4>Core science</h4>
+        <p class="core-sci">Berbamyrisin™ acts on C. acnes through a multi-pronged, resistance-safe mechanism; nimbidin and azadirachtin regulate sebum via 5-α-reductase inhibition and calm inflammation; terpinen-4-ol reinforces antibacterial action; a lactose-derived AHA dissolves the keratin plug behind bumpy texture, sharing the same follicular root cause as acne.</p>
+        <h4>Must meet</h4>
+        <p class="core-sci">Dermatologically tested · 100% natural, no SLS · non-drying · leak-tested packaging · no antibiotics</p>
+      </div>
+      <div class="col-side">
+        <div class="side-card"><div class="side-label">Colour</div><p>Pale sage-green with fine neem flecks</p></div>
+        <div class="side-card"><div class="side-label">Smell</div><p>Sharp green neem, basil and tea tree, light woody musk</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="variant" id="vetiver-chamomile">
+    <div class="variant-head">
+      <div class="priority-badge">06</div>
+      <div>
+        <div class="eyebrow">Hydrating &amp; Recovery</div>
+        <h3>Vetiver-Chamomile Tikta</h3>
+        <p class="variant-position">A Real Recovery Mechanism, Not a Cooling Fragrance</p>
+      </div>
+      <div class="doodle"><svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="38" r="7" stroke="var(--ink)" stroke-width="1.3"/>
+            <path d="M50 31c-3-6-1-10 3-11M50 31c3-6 1-10-3-11M43 38c-6-3-10-1-11 3M43 38c-6 3-10 1-11-3M57 38c6-3 10-1 11 3M57 38c6 3 10 1 11-3M45 44c-2 6 0 10 5 12M55 44c2 6 0 10-5 12" stroke="var(--ink)" stroke-width="1.1"/>
+            <path d="M35 62c4 8 3 14-2 20M42 60c3 9 1 15-3 22M50 60v24M58 60c-3 9-1 15 3 22M65 62c-4 8-3 14 2 20" stroke="var(--ink)" stroke-width="1.2"/>
+        </svg></div>
+    </div>
+    <div class="persona-chips"><span class="persona-chip " style="--pc:#2F6B6B">The Active Body</span><span class="persona-chip chip-secondary" style="--pc:#4B5D45">The True Naturalist</span></div>
+    <div class="concept-flow">
+      <div class="flow-row"><span class="flow-tag fails">Conventional Fails Because</span><p>Refreshing body washes almost universally reach for a menthol or citrus fragrance note and call it cooling — meaning the relief is psychological, not physiological. In Indian humidity, sweat can't evaporate efficiently, so the body's own cooling mechanism doesn't complete, no matter how fresh the fragrance smells. And nothing in the category acknowledges that a body that trained hard gets sore — a face never does.</p></div>
+      <div class="flow-row"><span class="flow-tag reframe">Our Reframe</span><p>Vetiver-Chamomile Tikta targets both mechanisms directly, not the fragrance memory of them. ‘Muscle Relaxation’ sits in this category's own tracked whitespace with zero brands claiming it — nobody has shown up for the person who showers because they trained, not because it's morning.</p></div>
+      <div class="flow-row"><span class="flow-tag mechanism">The Mechanism</span><p>Menthol directly activates TRPM8, skin's cold-sensing receptor, producing a felt cooling response independent of ambient humidity. Chamomile carries real, peer-reviewed standing as a classical muscle relaxant relevant to exercise soreness — an actual recovery mechanism, not a fragrance dressed up as one. Vetiver contributes centuries of real Indian cooling tradition and antioxidant support, keeping this inside our own architecture instead of a borrowed Western mint story.</p></div>
+    </div>
+    <div class="bitter-truth"><b>The bitter truth:</b> Your face never gets sore. Your body does, and nothing in this category has been built for that difference.</div>
+    <div class="note-block"><div class="note-label">On a men&rsquo;s version, later</div><p>Stays unisex today, by design. Built with enough range in its dosing and fragrance that a men's-specific version is worth considering later — noted for planning, not promised as a current commitment.</p></div>
+    <div class="rd-block"><div class="rd-label">R&amp;D Frontier &mdash; Temperature-Adaptive Technology</div><p>TRPM8 and TRPV1 are the two thermoreceptors already at work in this formula's world — TRPM8 fires cold, TRPV1 fires heat, and the two aren't independent: TRPM8 activation actively inhibits TRPV1 <sup><a href="#src-29">[29]</a></sup>. That cross-talk is the mechanism a genuinely temperature-adaptive wash can be built on, not a combo pack of two bottles. A dual-agonist formula — menthol at a TRPM8-active dose, paired with a sub-irritating TRPV1 agonist such as vanillyl butyl ether — reads differently depending on the water it meets: cool water pushes skin toward TRPM8's activation range and the formula answers with cooling, while the same TRPM8 signal suppresses the warming side, so the experience stays clean, not muddled. Warm water doesn't trigger that suppression, so the TRPV1 agonist reads through as a gentle warmth instead. One formula, two honest readings, governed by the water the customer actually uses — not a switch, not a gimmick, a receptor interaction that's already been mapped.<br><br>This isn't a hypothetical mechanism. A November 2025 paper in the Journal of Sensory Studies evaluated exactly this kind of build — a water-triggered smart-release system that extends how long a cooling agent stays active once water hits it <sup><a href="#src-28">[28]</a></sup>. TIRTIR's Dual-Cool Sync™ technology already sells a quantified version of the cooling half at retail in India — a measured −4.39°C surface effect, not a marketing adjective <sup><a href="#src-32">[32]</a></sup>. And neem itself, already this range's acne hero, has patent-documented standing as a natural TRPM8 activator <sup><a href="#src-31">[31]</a></sup> — a genuine bridge back to an ingredient already in the portfolio, worth testing before reaching for a synthetic cooling agent alone.<br><br>The honest caveat: this is a phase-two build, not a launch-day claim. The core Vetiver-Chamomile Tikta formula above works today on menthol's proven TRPM8 action alone. The dual-agonist version is the R&D track to open in parallel — real science, a real recent publication, and a real commercial precedent already validating the cooling half of it.</p></div>
+    <div class="variant-grid">
+      <div class="col-main">
+        <h4>Key ingredients</h4>
+        <table class="ing-table"><thead><tr><th>Ingredient</th><th>Why it earns its place here</th></tr></thead><tbody><tr><td class="ing-name">Vetiver</td><td>A classical Indian cooling root with a genuine bitter-earthy note, not a borrowed Western mint story.</td></tr><tr><td class="ing-name">Chamomile</td><td>Documented in peer-reviewed research as a classical muscle relaxant relevant to exercise-related soreness.</td></tr><tr><td class="ing-name">Coconut Water</td><td>Light, electrolyte-based hydration without the weight of a richer formula.</td></tr></tbody></table>
+        <h4>Core science</h4>
+        <p class="core-sci">Menthol activates TRPM8 receptors directly, producing cooling independent of humidity; chamomile is documented as a classical muscle relaxant relevant to post-exercise soreness; vetiver contributes antioxidant support within a genuine cooling tradition; coconut water provides light hydration.</p>
+        <h4>Must meet</h4>
+        <p class="core-sci">Dermatologically tested · 100% natural · non-drying · leak-tested packaging · gender-neutral formulation and fragrance</p>
+      </div>
+      <div class="col-side">
+        <div class="side-card"><div class="side-label">Colour</div><p>Pale translucent green</p></div>
+        <div class="side-card"><div class="side-label">Smell</div><p>Earthy vetiver root, soft chamomile, a whisper of coconut water</p></div>
+      </div>
+    </div>
+  </section>
+      
+    <section class="section-block" id="texture">
+      <div class="eyebrow">05 &mdash; Format</div>
+      <h2>Texture, for R&amp;D</h2>
+      <p class="section-lede">Every format decision here passes one test: does it change what the product can physically do, or is it just how it feels? Our own hands-on trials back this up — a competitor formula with real micro-exfoliation particles scored 9/10 in our evaluators' notes; a plain gel with nothing differentiated scored a flat 5/10, described as ‘nothing good that stays with you, nothing negative either.’</p>
+      <h3>Delivery technology, compared</h3>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-name">Self-Emulsifying Oil System (HLB-Formulated)</div>
+          <p><b>How it works:</b> The Hydrophilic-Lipophilic Balance system, built by William C. Griffin and running 0–20, sets the spec. A leave-on facial oil sits at 3–6 (water-in-oil) because it's built to stay on skin. An oil-to-milk cleanser needs a required-HLB oil phase in the 8–16 range, paired with a water-soluble surfactant, so the formula flips into a rinsable milk the moment water hits it.</p>
+          <p><b>Real example:</b> KosaSport's Good Body Skin AHA + Enzyme Body Wash runs this same logic, pairing acids and enzymes in one formula.</p>
+          <p><b>For this range:</b> The build target for R&D: an 8–16 required-HLB oil phase, prototyped first for Neem Berbamyrisin Tikta, where the oil dissolves lipophilic, pollution-bound sebum before the surfactant starts working, and for Ubtan Tikta, where the oil phase carries sandalwood into contact with skin for longer before rinsing.</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-name">Postbiotic / Prebiotic Stabilised Systems</div>
+          <p><b>How it works:</b> Live probiotic cultures don't survive a surfactant base through a 9–12-month rinse-off shelf life. A prebiotic feeding sugar does — there's nothing alive in it to keep alive.</p>
+          <p><b>Real example:</b> Darling's Multi-Biotics Body Wash and Luna Daily's The Everywhere Wash both build their entire identity on exactly this distinction.</p>
+          <p><b>For this range:</b> This is the mechanism inside Goat Milk Tikta — calling it prebiotic and meaning it, instead of reaching for the bigger word.</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-name">Dual-Thermoceptor (TRPM8/TRPV1) Temperature-Adaptive System</div>
+          <p><b>How it works:</b> TRPM8 (cold, activated below 26°C and by menthol) and TRPV1 (heat) sit in a real cross-inhibitory relationship — activating one suppresses the other <sup><a href="#src-29">[29]</a></sup><sup><a href="#src-30">[30]</a></sup>. A dual-agonist formula reads as cooling in cold water and warming in warm water, from the same bottle.</p>
+          <p><b>Real example:</b> TIRTIR's Dual-Cool Sync™ (−4.39°C, live in India) proves the cooling half at retail; a Nov 2025 Journal of Sensory Studies paper proves the water-triggered release mechanism <sup><a href="#src-28">[28]</a></sup><sup><a href="#src-32">[32]</a></sup>.</p>
+          <p><b>For this range:</b> The R&D frontier attached to Vetiver-Chamomile Tikta — full detail in that variant's own section, including the neem-as-natural-TRPM8-activator bridge.</p>
+        </div></div>
+      <h3>Disruptive content &amp; campaigns worth studying</h3>
+      <table class="data-table">
+        <thead><tr><th>Campaign</th><th>Brand</th><th>Why it matters</th></tr></thead>
+        <tbody><tr><td>Smell Like Your Ex(foliating Body Wash)</td><td>Suave<sup><a href="#src-21">[21]</a></sup></td><td>A social-first, pun-led campaign that made exfoliation itself the punchline — proof a functional concern can carry real comedic, shareable marketing.</td></tr><tr><td>Natural grooming, culturally resonant</td><td>Dr. Squatch<sup><a href="#src-22">[22]</a></sup></td><td>Built an entire men's brand by educating a male audience on natural ingredients through humour, not lecture.</td></tr></tbody>
+      </table>
+    </section>
+      
+    <section class="section-block" id="extensions">
+      <div class="eyebrow">06 &mdash; Way Forward</div>
+      <h2>Category Extensions</h2>
+      <div class="ext-card"><h4>Body Mask, Extending a Weekly Ritual Format <sup><a href="#src-17">[17]</a></sup><sup><a href="#src-33">[33]</a></sup><sup><a href="#src-34">[34]</a></sup></h4><p>The global body scrub and mask category is real money, not a niche: $1.3B, with cream-based formats already 45% of the product mix and 69.44% of use happening at home, not in a spa <sup><a href="#src-33">[33]</a></sup>. Indian brands are already building entire identities on this exact weekly-ritual structure — Old School Rituals sequences Oil Massage, Scrub &amp; Bathe, and Moisturise as one named routine <sup><a href="#src-34">[34]</a></sup>. A real internal precedent already proves the mechanism this needs: a milk-and-yogurt-based mask, freshly made rather than clay-and-water, carrying roughly 10x longer-lasting suppleness and 15 active ingredients <sup><a href="#src-17">[17]</a></sup>. Extending that formula logic to the body is a second act on a proven base, entering a category with real, growing spend behind it.</p></div><div class="ext-card"><h4>Travel Format: Strips, Riding a Real Adjacent Category <sup><a href="#src-35">[35]</a></sup><sup><a href="#src-36">[36]</a></sup></h4><p>Travel-size toiletries are an $4.8B category already, headed to $8.6B by 2034 <sup><a href="#src-35">[35]</a></sup>. Dissolvable strips specifically have proof of scale from an adjacent category: beauty oral strips alone are a $260M market growing at 12.4% a year <sup><a href="#src-36">[36]</a></sup>, and paper soap strips already sell in India today — real, live SKUs, some already labelled for hand, face and body use rather than hands only. The gap isn't inventing a new format. It's being the first to commit a strip fully to full-body positioning instead of treating it as a hand-wash afterthought, backed by a category that's already proven customers will pay for compact, dissolvable format at scale.</p></div><div class="ext-card"><h4>Shampoo + Bodywash, Combined <sup><a href="#src-23">[23]</a></sup></h4><p>Already crowded in India — BE SOULFULL, TYMK, Kormesic, Kimirica ‘The Gentleman,’ Rituals Sport are all live. Entering generically here is a copycat move dressed up as a launch. The one packaging idea worth real study is Elemen's ‘Dual Rush’ — an actual dual-chamber bottle, not two formulas sharing a label. If this is pursued at all, it should be a combined extension of Neem Berbamyrisin Tikta specifically, since scalp and back-acne share real biology — a mechanism worth building, not a convenience bundle worth avoiding.</p></div>
+    </section>
+      
+    <section class="section-block" id="repository">
+      <div class="eyebrow">07 &mdash; Communication Architecture</div>
+      <h2>Unique Brand Value Propositions</h2>
+      <div class="repo-grid"><div class="repo-card"><div class="repo-brand">Luna Daily <sup><a href="#src-25">[25]</a></sup></div><p>Owns the postbiotic/microbiome claim outright, globally.</p></div><div class="repo-card"><div class="repo-brand">Everist <sup><a href="#src-24">[24]</a></sup></div><p>Leads entirely on a sustainability mechanism, not a skin claim.</p></div><div class="repo-card"><div class="repo-brand">Kosas <sup><a href="#src-19">[19]</a></sup></div><p>Makes formulation sophistication itself the headline — acids and enzymes both named on-label.</p></div><div class="repo-card"><div class="repo-brand">Elemen <sup><a href="#src-23">[23]</a></sup></div><p>Makes packaging engineering the actual product news.</p></div><div class="repo-card"><div class="repo-brand">Darling <sup><a href="#src-18">[18]</a></sup></div><p>Writes microbiome science in warm, sensorial language — real science and real feeling aren't in tension.</p></div><div class="repo-card"><div class="repo-brand">Suave <sup><a href="#src-21">[21]</a></sup></div><p>Proved a functional concern can carry genuine humour and virality.</p></div><div class="repo-card"><div class="repo-brand">Dr. Squatch <sup><a href="#src-22">[22]</a></sup></div><p>Built an entire men's natural-grooming brand through humour and education, not a lecture.</p></div></div>
+    </section>
+      
+    <section class="section-block" id="sources">
+      <div class="eyebrow">08 &mdash; References</div>
+      <h2>Sources</h2>
+      <div class="src-row" id="src-1"><span class="src-n">[1]</span><span class="src-body">Latif R. et al., “Medicinal plants and human health: a comprehensive review” (2026), cited 295 times &mdash; <i>Phytochemistry Reviews, Springer Nature</i></span></div><div class="src-row" id="src-2"><span class="src-n">[2]</span><span class="src-body">Gilca M. et al., “Extraoral Taste Receptor Discovery: New Light on Ayurvedic Pharmacology” (2017) &mdash; <i><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5469997/" target="_blank" rel="noopener">PMC5469997, National Institutes of Health</a></i></span></div><div class="src-row" id="src-3"><span class="src-n">[3]</span><span class="src-body">Gopinath H. et al., “Turmeric: A condiment, cosmetic and cure” (2018), cited 150 times &mdash; <i>Indian Journal of Dermatology, Venereology and Leprology</i></span></div><div class="src-row" id="src-4"><span class="src-n">[4]</span><span class="src-body">Giri S. et al., “Formulation and Evaluation of Turmeric- and Neem-Based Topical Nanoemulgel Against Microbial Infection” (2024) &mdash; <i><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11431516/" target="_blank" rel="noopener">PMC11431516, National Institutes of Health</a></i></span></div><div class="src-row" id="src-5"><span class="src-n">[5]</span><span class="src-body">Tufail T. et al., “Neem (Azadirachta indica): A Miracle Herb” (2025) &mdash; <i>Food Science & Nutrition, Wiley</i></span></div><div class="src-row" id="src-6"><span class="src-n">[6]</span><span class="src-body">Bortolotti M. et al., “Momordica charantia, a Nutraceutical Approach for Inflammatory Related Diseases” (2019), cited 216 times &mdash; <i><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6517695/" target="_blank" rel="noopener">PMC6517695, National Institutes of Health</a></i></span></div><div class="src-row" id="src-7"><span class="src-n">[7]</span><span class="src-body">Jayaraj P. et al., “Assessment of the Antimicrobial Effect of Momordica charantia” (2024) &mdash; <i><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11700433/" target="_blank" rel="noopener">PMC11700433, National Institutes of Health</a></i></span></div><div class="src-row" id="src-8"><span class="src-n">[8]</span><span class="src-body">Ncube K.T. et al., “Genomic Tools for Medicinal Properties of Goat Milk for Cosmetic and Health Benefits” (2025) &mdash; <i><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11817167/" target="_blank" rel="noopener">PMC11817167, National Institutes of Health</a></i></span></div><div class="src-row" id="src-9"><span class="src-n">[9]</span><span class="src-body">Meamarbashi A., “Herbs and natural supplements in the prevention and treatment of delayed-onset muscle soreness” (2017), cited 55 times — chamomile documented as a classical muscle relaxant &mdash; <i><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5329173/" target="_blank" rel="noopener">PMC5329173, National Institutes of Health</a></i></span></div><div class="src-row" id="src-10"><span class="src-n">[10]</span><span class="src-body">“Prebiotics, Probiotics, and Postbiotics for Acne Vulgaris” (2026) &mdash; <i><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13013907/" target="_blank" rel="noopener">PMC13013907, National Institutes of Health</a></i></span></div><div class="src-row" id="src-11"><span class="src-n">[11]</span><span class="src-body">Peterson G. et al., “A robust sebum, oil, and particulate pollution model for assessing cleansing efficacy of human skin” (2017), cited 36 times &mdash; <i><a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">PubMed, National Institutes of Health</a></i></span></div><div class="src-row" id="src-12"><span class="src-n">[12]</span><span class="src-body">Veronica A.D. et al., “Effectiveness of Oil-Based Facial Cleansers (Oil Cleansing Method)” (2026) &mdash; <i><a href="https://indonesianjournalmedicine.org" target="_blank" rel="noopener">The Indonesian Journal of General Medicine</a></i></span></div><div class="src-row" id="src-13"><span class="src-n">[13]</span><span class="src-body">Albanese J., “Introduction to the HLB System” — Griffin's original 0–20 hydrophilic-lipophilic balance scale and required-HLB formulation method &mdash; <i><a href="http://www.thecosmeticchemist.com/education/formulation_science/introduction_to_the_hlb_system.html" target="_blank" rel="noopener">The Cosmetic Chemist</a></i></span></div><div class="src-row" id="src-14"><span class="src-n">[14]</span><span class="src-body">Amazon.in Helium 10 X-Ray pull, 22 Jul 2026 — Bodywash & Shower Gel category, 99 SKUs &mdash; <i>Internal market segmentation</i></span></div><div class="src-row" id="src-15"><span class="src-n">[15]</span><span class="src-body">Amazon.in review analysis (Nov 2025 pull, re-synthesised Jul 2026) — 13 brands &mdash; <i>Internal review analysis</i></span></div><div class="src-row" id="src-16"><span class="src-n">[16]</span><span class="src-body">Internal body-care catalogue — best-reviewed adult body product in the range: 4.8 stars, 304 ratings, 7 power ingredients &mdash; <i>Internal product data</i></span></div><div class="src-row" id="src-17"><span class="src-n">[17]</span><span class="src-body">Tikta concept architecture, FOP drafts, patented-technology naming development, body mask precedent, milk-based face oil precedent &mdash; <i>Internal concept development sheet</i></span></div><div class="src-row" id="src-18"><span class="src-n">[18]</span><span class="src-body">Multi-Biotics Body Wash — prebiotic/probiotic hydrating wash, 97% naturally-derived &mdash; <i><a href="https://www.darlingsun.com/products/multi-biotics-body-wash" target="_blank" rel="noopener">Darling, darlingsun.com</a></i></span></div><div class="src-row" id="src-19"><span class="src-n">[19]</span><span class="src-body">KosaSport Good Body Skin AHA + Enzyme Exfoliating Body Wash &mdash; <i><a href="https://www.desertcart.in/products/535184002-kosas-kosasport-good-body-skin-aha-and-enzyme-exfoliating-body" target="_blank" rel="noopener">via desertcart.in</a></i></span></div><div class="src-row" id="src-20"><span class="src-n">[20]</span><span class="src-body">Men's Enzyme De-Tan pack for face & body &mdash; <i><a href="https://buyniconi.com" target="_blank" rel="noopener">Niconi, buyniconi.com</a></i></span></div><div class="src-row" id="src-21"><span class="src-n">[21]</span><span class="src-body">Suave Runs the ‘Smell Like Your Ex(foliating Body Wash)’ Campaign &mdash; <i><a href="https://www.trendhunter.com/trends/body-care-campaign" target="_blank" rel="noopener">Trend Hunter, 3 Mar 2026</a></i></span></div><div class="src-row" id="src-22"><span class="src-n">[22]</span><span class="src-body">The Masters of Marketing in 2025 — Dr. Squatch Body Wash entry &mdash; <i><a href="https://beautymatter.com/articles/the-masters-of-marketing-in-2025" target="_blank" rel="noopener">BeautyMatter, 31 Jul 2025</a></i></span></div><div class="src-row" id="src-23"><span class="src-n">[23]</span><span class="src-body">Dual Rush — India's first flip-to-use duo bottle, 300ml bodywash + 200ml shampoo/conditioner &mdash; <i><a href="https://elemen.co.in" target="_blank" rel="noopener">elemen.co.in</a></i></span></div><div class="src-row" id="src-24"><span class="src-n">[24]</span><span class="src-body">Body Wash Concentrate — waterless format &mdash; <i><a href="https://helloeverist.com/products/the-body-wash-concentrate" target="_blank" rel="noopener">Everist, helloeverist.com</a></i></span></div><div class="src-row" id="src-25"><span class="src-n">[25]</span><span class="src-body">The Everywhere Wash — postbiotic/microbiome body wash &mdash; <i><a href="https://luna-daily.com/collections/wash" target="_blank" rel="noopener">Luna Daily, luna-daily.com</a></i></span></div><div class="src-row" id="src-26"><span class="src-n">[26]</span><span class="src-body">LIFEBUOY Ice Bath Bodywash, 750ml, for Instant Heat Relief, with Menthol and Cool Sense Actives, Skin Cooling in Seconds &mdash; <i><a href="https://www.amazon.in/LIFEBUOY-Bodywash-Instant-Refreshing-Fragrance/dp/B0GGC33S1X" target="_blank" rel="noopener">Amazon.in</a></i></span></div><div class="src-row" id="src-27"><span class="src-n">[27]</span><span class="src-body">Lavender & Cool Frost Shower Gel Combo Pack (2 x 300ml) — Refreshing & Relaxing Body Wash, Hydrating, Cooling & Soothing Bath Care Set, ₹389 &mdash; <i><a href="https://www.amazon.in/Lavender-Refreshing-Relaxing-Hydrating-Soothing/dp/B0FN7MBSGX" target="_blank" rel="noopener">FAYVERA, via Amazon.in</a></i></span></div><div class="src-row" id="src-28"><span class="src-n">[28]</span><span class="src-body">Meng H., Hu W., Liu D., Pei X., “Evaluation of the Application of Novel Smart Release Cooling Agent in Neurocosmetic Products” (2025) — a water-triggered release mechanism that extends cooling-agent release time &mdash; <i>Journal of Sensory Studies, 40(6), Wiley</i></span></div><div class="src-row" id="src-29"><span class="src-n">[29]</span><span class="src-body">Li W.W. et al., “Roles of Thermosensitive Transient Receptor Channels in Skin” (2024), cited 21 times — TRPM8 activation inhibits TRPV1 function &mdash; <i><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11171746/" target="_blank" rel="noopener">PMC11171746, National Institutes of Health</a></i></span></div><div class="src-row" id="src-30"><span class="src-n">[30]</span><span class="src-body">Bharate S.S. &amp; Bharate S.B., “Modulation of Thermoreceptor TRPM8 by Cooling Compounds” (2012), cited 135 times &mdash; <i>ACS Chemical Neuroscience</i></span></div><div class="src-row" id="src-31"><span class="src-n">[31]</span><span class="src-body">TRPM8 activator / cooling-sensation-agent patent citing herb robert and neem extracts &mdash; <i><a href="https://patents.google.com" target="_blank" rel="noopener">Google Patents</a></i></span></div><div class="src-row" id="src-32"><span class="src-n">[32]</span><span class="src-body">TIRTIR Ice-Cooling Cloud Cream — Dual-Cool Sync™ Technology, a quantified −4.39°C instant surface-cooling effect, live in India at ₹279 &mdash; <i><a href="https://www.desertcart.in" target="_blank" rel="noopener">TIRTIR, via Desertcart India</a></i></span></div><div class="src-row" id="src-33"><span class="src-n">[33]</span><span class="src-body">Global body scrub market valued at $1.3B (2026), cream-based formats at 45% of the product segment, residential/at-home use at 69.44% share &mdash; <i>Future Market Insights &amp; Fortune Business Insights</i></span></div><div class="src-row" id="src-34"><span class="src-n">[34]</span><span class="src-body">Old School Rituals — explicit weekly ritual architecture (Oil Massage, Scrub &amp; Bathe, Moisturise) &mdash; <i><a href="https://oldschoolrituals.in" target="_blank" rel="noopener">oldschoolrituals.in</a></i></span></div><div class="src-row" id="src-35"><span class="src-n">[35]</span><span class="src-body">Travel-size toiletries market valued at $4.8B (2025), projected to $8.6B by 2034 &mdash; <i>Dataintelo</i></span></div><div class="src-row" id="src-36"><span class="src-n">[36]</span><span class="src-body">Beauty oral-strips market valued at $260M (2025), 12.4% CAGR through 2036 — adjacent proof that a dissolvable-strip format scales in beauty &mdash; <i>Future Market Insights</i></span></div>
+    </section>
+    </div>
+  </main>
+</div>
+<div id="gate" class="gate-overlay">
+  <div class="gate-card">
+    <div class="gate-doodle"><svg width="120" height="120" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40 90c0 20 16 32 30 32s30-12 30-32" stroke="var(--ink)" stroke-width="1.6"/>
+            <ellipse cx="70" cy="90" rx="34" ry="9" stroke="var(--ink)" stroke-width="1.6"/>
+            <path d="M55 82c-6-14-2-28 8-36M85 82c6-14 2-28-8-36" stroke="var(--ink)" stroke-width="1.3"/>
+            <path d="M63 46c-8-2-13-9-11-16 7 0 13 6 11 16zM77 46c8-2 13-9 11-16-7 0-13 6-11 16z" stroke="var(--ink)" stroke-width="1.2"/>
+            <circle cx="70" cy="30" r="4" stroke="var(--ink)" stroke-width="1.2"/>
+            <path d="M30 110c26 8 54 8 80 0" stroke="var(--ink)" stroke-width="1.1" stroke-dasharray="1 5"/>
+        </svg></div>
+    <div class="gate-title">Tikta Bodywash</div>
+    <p class="gate-sub">This is a private concept document. Enter the password to continue.</p>
+    <input type="password" id="gate-input" class="gate-input" placeholder="Password" autocomplete="off">
+    <button id="gate-submit" class="gate-button">Unlock</button>
+    <p id="gate-error" class="gate-error">Incorrect password &mdash; try again.</p>
+  </div>
+</div>
+<script>
+  document.querySelectorAll('.navlink').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      var t = document.getElementById(el.getAttribute('data-target'));
+      if (t) { t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+    });
+  });
+
+  // Active-section highlighting in the sidebar as the reader scrolls
+  var sections = Array.from(document.querySelectorAll('.wrap > section, .wrap > .hero-row'));
+  var navlinks = Array.from(document.querySelectorAll('.navlink'));
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        navlinks.forEach(function(l) { l.classList.toggle('active', l.getAttribute('data-target') === id); });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(function(s) { if (s.id) observer.observe(s); });
+
+  // Simple client-side password gate. Not real security (this is a static
+  // public page) -- it's a casual access deterrent, matching what was asked for.
+  (function() {
+    var PASSWORD = "bodywashunlock13";
+    var gate = document.getElementById('gate');
+    var input = document.getElementById('gate-input');
+    var button = document.getElementById('gate-submit');
+    var error = document.getElementById('gate-error');
+    function unlock() {
+      gate.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      sessionStorage.setItem('tt-bw-26-unlocked', '1');
+    }
+    function tryUnlock() {
+      if (input.value === PASSWORD) { unlock(); }
+      else { error.style.display = 'block'; input.value = ''; input.focus(); }
+    }
+    if (sessionStorage.getItem('tt-bw-26-unlocked') === '1') {
+      gate.style.display = 'none';
+    } else {
+      document.body.style.overflow = 'hidden';
+      button.addEventListener('click', tryUnlock);
+      input.addEventListener('keydown', function(e) { if (e.key === 'Enter') tryUnlock(); });
+      setTimeout(function() { input.focus(); }, 100);
+    }
+  })();
+</script>
+</body>
+</html>
